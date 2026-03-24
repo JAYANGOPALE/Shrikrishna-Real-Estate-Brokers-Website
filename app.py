@@ -10,6 +10,44 @@ from database.db import db
 # Load environment variables early
 load_dotenv()
 
+def init_db_schema(app):
+    """Auto-fix database schema on startup without crashing the app if DB is missing."""
+    if not app.config.get('SQLALCHEMY_DATABASE_URI') or 'sqlite' in app.config.get('SQLALCHEMY_DATABASE_URI'):
+        print("Skipping DB schema fix: Database URL not set or using SQLite (Vercel is read-only).")
+        return
+
+    with app.app_context():
+        from sqlalchemy import text
+        try:
+            # Short timeout to prevent Vercel boot-up hang
+            with db.engine.connect() as conn:
+                # Add user_id to properties
+                try:
+                    conn.execute(text("ALTER TABLE properties ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id)"))
+                    conn.commit()
+                except Exception: pass
+                
+                # Add is_public to properties
+                try:
+                    conn.execute(text("ALTER TABLE properties ADD COLUMN IF NOT EXISTS is_public BOOLEAN DEFAULT TRUE"))
+                    conn.commit()
+                except Exception: pass
+                
+                # Add role to users
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'Buyer'"))
+                    conn.commit()
+                except Exception: pass
+
+                # Fix password_hash length for scrypt hashes
+                try:
+                    conn.execute(text("ALTER TABLE users ALTER COLUMN password_hash TYPE TEXT"))
+                    conn.commit()
+                except Exception: pass
+            print("DB schema initialization checked.")
+        except Exception as e:
+            print(f"Non-critical migration error: {e}")
+
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
     app.config.from_object(Config)
@@ -48,44 +86,15 @@ def create_app():
     app.register_blueprint(requirement_bp, url_prefix='/requirements')
     app.register_blueprint(property_bp, url_prefix='/property')
 
-    # Auto-fix database schema on startup
-    with app.app_context():
-        from sqlalchemy import text
-        try:
-            with db.engine.connect() as conn:
-                # Add user_id to properties
-                try:
-                    conn.execute(text("ALTER TABLE properties ADD COLUMN user_id INTEGER REFERENCES users(id)"))
-                    conn.commit()
-                except Exception: pass
-                
-                # Add is_public to properties
-                try:
-                    # Use TRUE instead of 1 for PostgreSQL compatibility
-                    conn.execute(text("ALTER TABLE properties ADD COLUMN is_public BOOLEAN DEFAULT TRUE"))
-                    conn.commit()
-                except Exception: pass
-                
-                # Add role to users
-                try:
-                    conn.execute(text("ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'Buyer'"))
-                    conn.commit()
-                except Exception: pass
-
-                # Fix password_hash length for scrypt hashes
-                try:
-                    conn.execute(text("ALTER TABLE users ALTER COLUMN password_hash TYPE TEXT"))
-                    conn.commit()
-                except Exception: pass
-        except Exception as e:
-            print(f"Migration error: {e}")
+    # Run DB schema initialization
+    init_db_schema(app)
 
     return app
 
 app = create_app()
 
 if __name__ == '__main__':
+    # Local development creates all tables and runs debug mode
     with app.app_context():
-        # This will create tables in Supabase if they don't exist
         db.create_all()
     app.run(debug=True)

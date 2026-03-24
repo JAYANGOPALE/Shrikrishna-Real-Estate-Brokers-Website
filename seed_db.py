@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import csv
 from app import create_app
 from database.db import db
 from models.user_model import User
@@ -61,24 +61,26 @@ def seed_database():
         # 5. Load Properties from CSV
         csv_path = os.path.join('ml_model', 'dataset', 'dummy_data.csv')
         if os.path.exists(csv_path):
-            df = pd.read_csv(csv_path)
-            for _, row in df.iterrows():
-                # Check if property already exists
-                existing = Property.query.filter_by(title=f"{row['bhk']} BHK {row['property_type']} in {row['location']}").first()
-                if not existing:
-                    new_prop = Property(
-                        title=f"{row['bhk']} BHK {row['property_type']} in {row['location']}",
-                        location=row['location'],
-                        price=float(row['price']),
-                        bhk=int(row['bhk']),
-                        area=float(row['area']),
-                        listing_type='Sale', # Default to Sale if not in CSV
-                        property_type=row['property_type'],
-                        description=f"A beautiful {row['bhk']} BHK {row['property_type']} located in {row['location']}. Features {row['area']} sqft of living space.",
-                        owner_id=owner.owner_id,
-                        is_featured=True # Feature some properties by default
-                    )
-                    db.session.add(new_prop)
+            with open(csv_path, 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    title = f"{row['bhk']} BHK {row['property_type']} in {row['location']}"
+                    # Check if property already exists
+                    existing = Property.query.filter_by(title=title).first()
+                    if not existing:
+                        new_prop = Property(
+                            title=title,
+                            location=row['location'],
+                            price=float(row['price']),
+                            bhk=int(row['bhk']),
+                            area=float(row['area']),
+                            listing_type='Sale',
+                            property_type=row['property_type'],
+                            description=f"A beautiful {row['bhk']} BHK {row['property_type']} located in {row['location']}. Features {row['area']} sqft of living space.",
+                            owner_id=owner.owner_id,
+                            is_featured=True
+                        )
+                        db.session.add(new_prop)
             print(f"Properties seeded from {csv_path}.")
         
         db.session.commit()

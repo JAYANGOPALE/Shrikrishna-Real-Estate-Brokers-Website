@@ -5,13 +5,11 @@ Flask-Login
 Flask-WTF
 Flask-Cors
 bcrypt
-pandas
 scikit-learn
 numpy
 python-dotenv
 Werkzeug
 email-validator
 marshmallow
-gunicorn
 Pillow
 psycopg2-binary

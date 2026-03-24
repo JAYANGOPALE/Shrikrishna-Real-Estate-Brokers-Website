@@ -1,39 +1,51 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
+import math
+from collections import Counter
 
 class PropertyRecommender:
     def __init__(self):
-        self.tfidf = TfidfVectorizer(stop_words='english')
+        pass
+
+    def _get_tokens(self, text):
+        return set(text.lower().split())
+
+    def _cosine_similarity(self, text1, text2):
+        # A simple keyword-based cosine similarity instead of full Tfidf
+        vec1 = Counter(self._get_tokens(text1))
+        vec2 = Counter(self._get_tokens(text2))
+        
+        intersection = set(vec1.keys()) & set(vec2.keys())
+        numerator = sum([vec1[x] * vec2[x] for x in intersection])
+
+        sum1 = sum([vec1[x]**2 for x in vec1.keys()])
+        sum2 = sum([vec2[x]**2 for x in vec2.keys()])
+        denominator = math.sqrt(sum1) * math.sqrt(sum2)
+
+        if not denominator:
+            return 0.0
+        return float(numerator) / denominator
 
     def recommend(self, current_property_id, properties_data):
-        """
-        properties_data: List of dicts [{'property_id': 1, 'description': '...', 'location': '...'}, ...]
-        """
         if not properties_data:
             return []
 
-        # Combine features for similarity
-        # We use description and location
-        data_text = [f"{p['location']} {p['property_type']} {p.get('description', '')}" for p in properties_data]
-        
-        tfidf_matrix = self.tfidf.fit_transform(data_text)
-        cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-        
-        # Find index of current property
-        idx = -1
-        for i, p in enumerate(properties_data):
-            if p['property_id'] == current_property_id:
-                idx = i
-                break
-        
-        if idx == -1:
+        # Find current property details
+        current_prop = next((p for p in properties_data if p['property_id'] == current_property_id), None)
+        if not current_prop:
             return []
 
-        sim_scores = list(enumerate(cosine_sim[idx]))
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:6] # Top 5 similar, skip self (index 0)
+        current_text = f"{current_prop['location']} {current_prop['property_type']} {current_prop.get('description', '')}"
         
-        property_indices = [i[0] for i in sim_scores]
-        return [properties_data[i] for i in property_indices]
+        scores = []
+        for p in properties_data:
+            if p['property_id'] == current_property_id:
+                continue
+            
+            p_text = f"{p['location']} {p['property_type']} {p.get('description', '')}"
+            score = self._cosine_similarity(current_text, p_text)
+            scores.append((p, score))
+
+        # Sort by score descending
+        scores.sort(key=lambda x: x[1], reverse=True)
+        return [p[0] for p in scores[:5]]
 
 recommender = PropertyRecommender()
