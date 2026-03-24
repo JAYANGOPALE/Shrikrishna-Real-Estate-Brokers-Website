@@ -21,5 +21,11 @@ class Config:
     SQLALCHEMY_DATABASE_URI = db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'jwt_secret_key_change_in_production')
-    UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads', 'property_images')
+    
+    # Use /tmp for uploads on Vercel because the rest of the filesystem is read-only
+    if os.environ.get('VERCEL'):
+        UPLOAD_FOLDER = '/tmp/property_images'
+    else:
+        UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads', 'property_images')
+        
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max upload
