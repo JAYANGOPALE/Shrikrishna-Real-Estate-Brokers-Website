@@ -7,13 +7,11 @@ Flask-Cors
 bcrypt
 pandas
 scikit-learn
-tensorflow
 numpy
 python-dotenv
 Werkzeug
 email-validator
 marshmallow
-pytest
 gunicorn
 Pillow
 psycopg2-binary

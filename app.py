@@ -82,8 +82,9 @@ def create_app():
 
     return app
 
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
     with app.app_context():
         # This will create tables in Supabase if they don't exist
         db.create_all()
