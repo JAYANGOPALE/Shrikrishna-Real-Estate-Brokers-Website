@@ -84,7 +84,8 @@
             <a href="{{ url_for('main.index') }}" class="flex items-center gap-4 md:gap-6 group z-50">
                 <div class="relative">
                     <div class="absolute inset-0 bg-luxury-gold blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="relative h-10 md:h-12 w-auto brightness-125 grayscale hover:grayscale-0 transition-all duration-700">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Shrikrishna Logo" class="relative h-10 md:h-12 w-auto transition-all duration-700 hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="hidden text-luxury-gold font-brand text-xs">SK</div>
                 </div>
                 <div class="flex flex-col border-l border-luxury-border pl-4 md:pl-6">
                     <span class="text-xl md:text-2xl font-brand text-white leading-none">SHRIKRISHNA</span>
