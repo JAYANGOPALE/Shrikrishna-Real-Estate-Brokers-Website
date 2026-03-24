@@ -16,3 +16,4 @@ marshmallow
 pytest
 gunicorn
 Pillow
+psycopg2-binary

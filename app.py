@@ -1,10 +1,14 @@
 import os
+from dotenv import load_dotenv
 from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_cors import CORS
 from config import Config
 from database.db import db
+
+# Load environment variables early
+load_dotenv()
 
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -23,7 +27,13 @@ def create_app():
     from models.user_model import User
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        # Handle the case where user_id might be None or invalid
+        if user_id is None:
+            return None
+        try:
+            return User.query.get(int(user_id))
+        except (ValueError, TypeError):
+            return None
 
     # Register Blueprints
     from routes.auth import auth_bp
@@ -51,13 +61,20 @@ def create_app():
                 
                 # Add is_public to properties
                 try:
-                    conn.execute(text("ALTER TABLE properties ADD COLUMN is_public BOOLEAN DEFAULT 1"))
+                    # Use TRUE instead of 1 for PostgreSQL compatibility
+                    conn.execute(text("ALTER TABLE properties ADD COLUMN is_public BOOLEAN DEFAULT TRUE"))
                     conn.commit()
                 except Exception: pass
                 
                 # Add role to users
                 try:
                     conn.execute(text("ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'Buyer'"))
+                    conn.commit()
+                except Exception: pass
+
+                # Fix password_hash length for scrypt hashes
+                try:
+                    conn.execute(text("ALTER TABLE users ALTER COLUMN password_hash TYPE TEXT"))
                     conn.commit()
                 except Exception: pass
         except Exception as e:
@@ -68,5 +85,6 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     with app.app_context():
+        # This will create tables in Supabase if they don't exist
         db.create_all()
     app.run(debug=True)

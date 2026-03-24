@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Patron Profile | Shrikrishna Private Estates{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-8 py-20">
+    <div class="mb-16 text-center">
+        <h4 class="font-brand text-[10px] text-luxury-gold tracking-[0.5em] uppercase mb-4">Account Management</h4>
+        <h1 class="text-6xl text-white italic mb-4">Your Identity</h1>
+        <p class="font-['Cormorant_Garamond'] text-xl text-slate-400 italic">Manage your distinguished membership and profile details.</p>
+    </div>
+
+    <div class="glass-panel p-10 rounded-sm relative overflow-hidden">
+        <!-- Subtle decorative element -->
+        <div class="absolute top-0 right-0 w-32 h-32 bg-luxury-gold/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <form action="{{ url_for('auth.profile') }}" method="POST" class="space-y-10 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Name -->
+                <div class="flex flex-col gap-3">
+                    <label for="name" class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">Full Name</label>
+                    <input type="text" id="name" name="name" value="{{ current_user.name }}" required
+                        class="bg-white/5 border border-luxury-border p-4 text-white font-['Montserrat'] focus:outline-none focus:border-luxury-gold transition-all duration-500 rounded-sm">
+                </div>
+
+                <!-- Email -->
+                <div class="flex flex-col gap-3">
+                    <label for="email" class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">Email Address</label>
+                    <input type="email" id="email" name="email" value="{{ current_user.email }}" required
+                        class="bg-white/5 border border-luxury-border p-4 text-white font-['Montserrat'] focus:outline-none focus:border-luxury-gold transition-all duration-500 rounded-sm">
+                </div>
+
+                <!-- Phone -->
+                <div class="flex flex-col gap-3">
+                    <label for="phone" class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">Contact Number</label>
+                    <input type="text" id="phone" name="phone" value="{{ current_user.phone or '' }}"
+                        class="bg-white/5 border border-luxury-border p-4 text-white font-['Montserrat'] focus:outline-none focus:border-luxury-gold transition-all duration-500 rounded-sm">
+                </div>
+
+                <!-- Role (Read Only for now) -->
+                <div class="flex flex-col gap-3 opacity-60">
+                    <label class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">Membership Tier</label>
+                    <div class="bg-black/20 border border-luxury-border/30 p-4 text-slate-400 font-brand text-[10px] tracking-widest rounded-sm">
+                        {{ current_user.role or 'DISTINGUISHED PATRON' }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-px bg-luxury-border/30"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Password (Optional) -->
+                <div class="flex flex-col gap-3">
+                    <label for="new_password" class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">New Password (Optional)</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Leave blank to keep current"
+                        class="bg-white/5 border border-luxury-border p-4 text-white font-['Montserrat'] focus:outline-none focus:border-luxury-gold transition-all duration-500 rounded-sm">
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <label for="confirm_password" class="font-brand text-[8px] text-luxury-gold uppercase tracking-[0.2em]">Confirm New Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Verify your password"
+                        class="bg-white/5 border border-luxury-border p-4 text-white font-['Montserrat'] focus:outline-none focus:border-luxury-gold transition-all duration-500 rounded-sm">
+                </div>
+            </div>
+
+            <div class="pt-6 flex justify-center md:justify-end">
+                <button type="submit" class="btn-premium py-4 px-12 group">
+                    Save Changes
+                    <i class="fas fa-chevron-right ml-4 group-hover:translate-x-2 transition-transform"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

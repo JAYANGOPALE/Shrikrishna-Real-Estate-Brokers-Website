@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Shrikrishna Real Estate Broker{% endblock %}</title>
+    <title>{% block title %}Shrikrishna Private Estates | Curated Real Estate{% endblock %}</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0f5ff',
-                            100: '#e0eaff',
-                            200: '#beceff',
-                            300: '#8caaff',
-                            400: '#4f78ff',
-                            500: '#1e3a8a', // Deep Navy
-                            600: '#1e40af',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#059669', // Sophisticated Emerald
+                            900: '#064e3b',
                         },
-                        amber: {
-                            500: '#d97706', // Golden Amber
-                            600: '#b45309',
+                        luxury: {
+                            gold: '#c5a059', 
+                            "gold-light": '#e5c07b',
+                            navy: '#010409', 
+                            glass: 'rgba(255, 255, 255, 0.03)',
+                            border: 'rgba(197, 160, 89, 0.15)',
                         }
+                    },
+                    backgroundImage: {
+                        'luxury-gradient': 'radial-gradient(circle at 50% 0%, #064e3b 0%, #010409 70%)',
+                    },
+                    fontSize: {
+                        'fluid-h1': 'clamp(2.5rem, 8vw, 8rem)',
+                        'fluid-h2': 'clamp(2rem, 5vw, 4.5rem)',
+                        'fluid-p': 'clamp(0.875rem, 1.5vw, 1.25rem)',
                     }
                 }
             }
@@ -34,74 +40,121 @@
     </script>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style type="text/tailwindcss">
+        @layer base {
+            body { @apply font-['Montserrat'] bg-luxury-navy text-slate-300 antialiased overflow-x-hidden; }
+            h1, h2, h3 { @apply font-['Cormorant_Garamond'] text-white italic leading-tight; }
+            .font-brand { @apply font-['Cinzel'] tracking-[0.2em]; }
+        }
         @layer components {
-            .active-nav { @apply text-primary-500 border-b-2 border-primary-500; }
-            .btn-primary { @apply bg-primary-500 text-white px-6 py-2 rounded-md font-semibold hover:bg-primary-600 transition-all shadow-md active:scale-95; }
-            .btn-amber { @apply bg-amber-500 text-white px-6 py-2 rounded-md font-semibold hover:bg-amber-600 transition-all shadow-md active:scale-95; }
+            .glass-panel {
+                @apply bg-white/[0.03] backdrop-blur-2xl border border-luxury-border shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500;
+            }
+            .glass-nav {
+                @apply bg-black/40 backdrop-blur-xl border-b border-luxury-border transition-all duration-500;
+            }
+            .btn-premium {
+                @apply relative overflow-hidden bg-gradient-to-tr from-luxury-gold to-luxury-gold-light text-luxury-navy px-8 py-3 md:px-10 md:py-4 rounded-sm font-['Cinzel'] font-bold text-[10px] md:text-xs tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all duration-500 shadow-[0_10px_30px_rgba(197,160,89,0.3)] border border-luxury-gold/50 flex items-center justify-center gap-3 whitespace-nowrap;
+            }
+            .btn-outline {
+                @apply border border-luxury-gold text-luxury-gold px-8 py-3 md:px-10 md:py-4 rounded-sm font-['Cinzel'] font-bold text-[10px] md:text-xs tracking-widest hover:bg-luxury-gold hover:text-luxury-navy transition-all duration-500 flex items-center justify-center gap-3 whitespace-nowrap;
+            }
+            .nav-link {
+                @apply font-['Cinzel'] text-[9px] md:text-[10px] tracking-[0.2em] text-slate-400 hover:text-luxury-gold transition-all duration-300 uppercase font-bold;
+            }
+            .emerald-aura {
+                @apply absolute w-[30vw] h-[30vw] bg-primary-500/5 rounded-full blur-[10vw] pointer-events-none;
+            }
         }
     </style>
 </head>
-<body class="bg-slate-50 flex flex-col min-h-screen text-slate-900">
+<body class="min-h-screen flex flex-col selection:bg-luxury-gold selection:text-luxury-navy">
+    <!-- Ambient Lighting -->
+    <div class="fixed inset-0 bg-luxury-gradient -z-20"></div>
+    <div class="emerald-aura top-[-10%] left-[-5%] animate-pulse"></div>
+    <div class="emerald-aura bottom-[-10%] right-[-5%] animate-pulse" style="animation-duration: 8s"></div>
+
     <!-- Navbar -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ url_for('main.index') }}" class="flex items-center gap-3 no-underline">
-                            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-12 w-auto">
-                            <div class="flex flex-col">
-                                <span class="text-xl font-black text-primary-900 tracking-tight leading-none uppercase">Shrikrishna</span>
-                                <span class="text-[10px] font-bold text-amber-500 tracking-[0.2em] uppercase">Real Estate Broker</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
-                        <a href="{{ url_for('main.index') }}" class="inline-flex items-center px-1 pt-1 text-sm font-bold text-slate-700 hover:text-primary-500 border-b-2 border-transparent hover:border-primary-500 transition-all no-underline">Home</a>
-                        <a href="{{ url_for('main.search') }}" class="inline-flex items-center px-1 pt-1 text-sm font-bold text-slate-700 hover:text-primary-500 border-b-2 border-transparent hover:border-primary-500 transition-all no-underline">Search</a>
-                        <a href="{{ url_for('main.customer_needs') }}" class="inline-flex items-center px-1 pt-1 text-sm font-bold text-slate-700 hover:text-primary-500 border-b-2 border-transparent hover:border-primary-500 transition-all no-underline">Buyer Needs</a>
-                        {% if current_user.is_authenticated and not current_user.is_admin %}
-                        <a href="{{ url_for('requirement.post_requirement') }}" class="inline-flex items-center px-1 pt-1 text-sm font-bold text-slate-700 hover:text-primary-500 border-b-2 border-transparent hover:border-primary-500 transition-all no-underline">Post Requirement</a>
-                        <a href="{{ url_for('property.post_property') }}" class="inline-flex items-center px-1 pt-1 text-sm font-bold text-slate-700 hover:text-primary-500 border-b-2 border-transparent hover:border-primary-500 transition-all no-underline">Post Property</a>
-                        {% endif %}
-                    </div>
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-4 md:py-6 flex justify-between items-center">
+            <!-- Brand -->
+            <a href="{{ url_for('main.index') }}" class="flex items-center gap-4 md:gap-6 group z-50">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-luxury-gold blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="relative h-10 md:h-12 w-auto brightness-125 grayscale hover:grayscale-0 transition-all duration-700">
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="hidden sm:flex sm:items-center sm:gap-6 border-l border-slate-200 pl-6">
-                        {% if current_user.is_authenticated %}
-                            <div class="flex flex-col items-end">
-                                <span class="text-slate-500 text-[10px] uppercase font-bold">Welcome back</span>
-                                <span class="text-primary-900 text-sm font-black">{{ current_user.name }}</span>
-                            </div>
-                            {% if current_user.is_admin %}
-                            <a href="{{ url_for('admin.dashboard') }}" class="text-primary-500 hover:text-primary-700 text-sm font-bold uppercase tracking-wider">Admin</a>
-                            {% endif %}
-                            <a href="{{ url_for('auth.logout') }}" class="text-slate-400 hover:text-red-600 transition-colors">
-                                <i class="bi bi-box-arrow-right text-xl"></i>
-                            </a>
-                        {% else %}
-                            <a href="{{ url_for('auth.login_choice') }}" class="text-slate-600 hover:text-primary-500 text-sm font-bold uppercase tracking-wider">Login</a>
-                            <a href="{{ url_for('auth.register') }}" class="btn-primary text-sm uppercase tracking-widest">Register</a>
-                        {% endif %}
-                    </div>
+                <div class="flex flex-col border-l border-luxury-border pl-4 md:pl-6">
+                    <span class="text-xl md:text-2xl font-brand text-white leading-none">SHRIKRISHNA</span>
+                    <span class="text-[8px] md:text-[9px] font-brand text-luxury-gold mt-1 uppercase">Estate Curators</span>
                 </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center space-x-8 xl:space-x-14">
+                <a href="{{ url_for('main.index') }}" class="nav-link !text-luxury-gold">Residences</a>
+                <a href="{{ url_for('main.search') }}" class="nav-link">The Collection</a>
+                <a href="{{ url_for('main.customer_needs') }}" class="nav-link">Mandates</a>
+                {% if current_user.is_authenticated and not current_user.is_admin %}
+                    <a href="{{ url_for('requirement.post_requirement') }}" class="nav-link">Acquisition</a>
+                    <a href="{{ url_for('property.post_property') }}" class="nav-link">Consignment</a>
+                {% endif %}
             </div>
+
+            <!-- Client Area & Mobile Toggle -->
+            <div class="flex items-center gap-4 md:gap-8">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.profile') }}" class="hidden md:flex flex-col items-end group no-underline">
+                    <span class="font-brand text-[8px] text-luxury-gold uppercase tracking-tighter opacity-60 group-hover:opacity-100 transition-opacity">Distinguished Patron</span>
+                    <span class="font-serif text-white text-lg tracking-wide leading-none group-hover:text-luxury-gold transition-colors">{{ current_user.name }}</span>
+                </a>
+                <div class="hidden md:block h-8 w-px bg-luxury-border"></div>
+                <a href="{{ url_for('auth.logout') }}" class="text-slate-500 hover:text-white transition-colors z-50"><i class="fas fa-power-off text-lg md:text-xl"></i></a>
+            {% else %}
+
+                    <div class="hidden sm:flex items-center gap-6">
+                        <a href="{{ url_for('auth.login_choice') }}" class="nav-link">Identity</a>
+                        <a href="{{ url_for('auth.register') }}" class="btn-premium !px-5 !py-2 text-[9px]">Join Circle</a>
+                    </div>
+                {% endif %}
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-toggle" class="lg:hidden text-white p-2 z-50 focus:outline-none">
+                    <div class="w-6 h-0.5 bg-luxury-gold mb-1.5 transition-all duration-300" id="bar1"></div>
+                    <div class="w-6 h-0.5 bg-luxury-gold mb-1.5 transition-all duration-300" id="bar2"></div>
+                    <div class="w-6 h-0.5 bg-luxury-gold transition-all duration-300" id="bar3"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-luxury-navy/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-500 lg:hidden">
+            <a href="{{ url_for('main.index') }}" class="nav-link text-lg">Residences</a>
+            <a href="{{ url_for('main.search') }}" class="nav-link text-lg">The Collection</a>
+            <a href="{{ url_for('main.customer_needs') }}" class="nav-link text-lg">Mandates</a>
+            <div class="h-px w-24 bg-luxury-border"></div>
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.login_choice') }}" class="nav-link text-lg">Identity</a>
+                <a href="{{ url_for('auth.register') }}" class="btn-premium">Join Inner Circle</a>
+            {% else %}
+                <a href="{{ url_for('auth.logout') }}" class="nav-link text-lg text-red-400">Depart</a>
+            {% endif %}
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Content -->
     <main class="flex-grow">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="max-w-4xl mx-auto px-6 py-6">
               {% for category, message in messages %}
-                <div class="p-4 mb-4 rounded-lg flex items-center gap-3 {% if category == 'success' %}bg-emerald-50 text-emerald-700 border border-emerald-200{% else %}bg-rose-50 text-rose-700 border border-rose-200{% endif %} shadow-sm animate-fade-in">
-                  <i class="bi {% if category == 'success' %}bi-check-circle-fill{% else %}bi-exclamation-triangle-fill{% endif %}"></i>
-                  <span class="font-medium text-sm">{{ message }}</span>
+                <div class="glass-panel p-5 rounded-sm border-l-2 {% if category == 'success' %}border-l-emerald-500 bg-emerald-500/5{% else %}border-l-rose-500 bg-rose-500/5{% endif %} animate-in fade-in slide-in-from-top-4 duration-700">
+                  <div class="flex items-center gap-4">
+                    <span class="font-brand text-[10px] uppercase {% if category == 'success' %}text-emerald-500{% else %}text-rose-500{% endif %}">Notice:</span>
+                    <span class="text-sm font-['Cormorant_Garamond'] italic text-white text-lg leading-tight">{{ message }}</span>
+                  </div>
                 </div>
               {% endfor %}
             </div>
@@ -112,93 +165,121 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-primary-900 text-white pt-20 pb-10 mt-auto relative overflow-hidden">
-        <!-- Decorative background element -->
-        <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-primary-800 rounded-full opacity-20 blur-3xl"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <!-- Brand Section -->
-                <div class="md:col-span-2">
-                    <div class="mb-8">
-                        <a href="{{ url_for('main.index') }}" class="flex items-center gap-3 no-underline">
-                            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-10 w-auto brightness-0 invert">
-                            <span class="text-2xl font-black tracking-tighter uppercase text-white">Shrikrishna <span class="text-amber-500">Real Estate</span></span>
-                        </a>
-                    </div>
-                    <p class="text-slate-300 text-base leading-relaxed mb-8 max-w-md">
-                        Your trusted partner in Nashik's real estate market. With over a decade of experience, we specialize in luxury residential properties and strategic commercial investments.
+    <footer id="main-footer" class="bg-black border-t border-luxury-border relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-8 py-24">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-20">
+                <div class="md:col-span-2 text-center md:text-left">
+                    <h2 class="text-5xl text-white mb-10 leading-tight">Your Legacy, <br><span class="text-luxury-gold">Our Command.</span></h2>
+                    <p class="font-['Cormorant_Garamond'] text-xl italic text-slate-400 max-w-lg mx-auto md:mx-0 mb-12">
+                        For over a decade, Shrikrishna has been the silent partner behind Nashik's most significant acquisitions. We deal in legacies, not just listings.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-amber-500 transition-all">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="https://www.instagram.com/shri.krishna_real_estate/?hl=en" target="_blank" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-amber-500 transition-all">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a href="https://wa.me/917030654050" target="_blank" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-emerald-500 transition-all">
-                            <i class="bi bi-whatsapp"></i>
-                        </a>
+                    <div class="flex justify-center md:justify-start gap-8">
+                        <a href="https://wa.me/917030654050" class="text-slate-500 hover:text-luxury-gold transition-all text-2xl"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/shri.krishna_real_estate/?hl=en" class="text-slate-500 hover:text-luxury-gold transition-all text-2xl"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div>
-                    <h5 class="text-lg font-bold mb-8 text-white uppercase tracking-widest relative inline-block">
-                        Navigation
-                        <span class="absolute -bottom-2 left-0 w-8 h-1 bg-amber-500"></span>
-                    </h5>
-                    <ul class="space-y-4">
-                        <li><a href="{{ url_for('main.index') }}" class="text-slate-400 hover:text-white transition-colors text-sm font-medium no-underline">Home</a></li>
-                        <li><a href="{{ url_for('main.search') }}" class="text-slate-400 hover:text-white transition-colors text-sm font-medium no-underline">Properties</a></li>
-                        <li><a href="{{ url_for('main.customer_needs') }}" class="text-slate-400 hover:text-white transition-colors text-sm font-medium no-underline">Buyer Needs</a></li>
-                        <li><a href="{{ url_for('auth.login') }}" class="text-slate-400 hover:text-white transition-colors text-sm font-medium no-underline">Partner Login</a></li>
+                <div class="text-center md:text-left">
+                    <h4 class="font-brand text-[10px] text-luxury-gold mb-12">DEPARTMENTS</h4>
+                    <ul class="space-y-6">
+                        <li><a href="#" class="nav-link !text-slate-500 hover:!text-white">Private Residences</a></li>
+                        <li><a href="#" class="nav-link !text-slate-500 hover:!text-white">Commercial Assets</a></li>
+                        <li><a href="#" class="nav-link !text-slate-500 hover:!text-white">Strategic Land</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact Section -->
-                <div>
-                    <h5 class="text-lg font-bold mb-8 text-white uppercase tracking-widest relative inline-block">
-                        Get In Touch
-                        <span class="absolute -bottom-2 left-0 w-8 h-1 bg-amber-500"></span>
-                    </h5>
+                <div class="text-center md:text-left">
+                    <h4 class="font-brand text-[10px] text-luxury-gold mb-12">CONCIERGE</h4>
                     <ul class="space-y-6">
-                        <li class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500 flex-shrink-0">
-                                <i class="bi bi-geo-alt-fill"></i>
-                            </div>
-                            <span class="text-slate-300 text-sm">Nashik City, Maharashtra, India</span>
+                        <li class="flex items-center justify-center md:justify-start gap-4 text-xs font-brand tracking-widest text-slate-400">
+                            <i class="fas fa-map-pin text-luxury-gold"></i> Nashik, India
                         </li>
-                        <li class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500 flex-shrink-0">
-                                <i class="bi bi-telephone-fill"></i>
-                            </div>
-                            <a href="tel:+917030654050" class="text-slate-300 hover:text-white text-sm no-underline transition-colors">+91 70306 54050</a>
+                        <li class="flex items-center justify-center md:justify-start gap-4 text-xs font-brand tracking-widest text-slate-400">
+                            <i class="fas fa-phone text-luxury-gold"></i> +91 70306 54050
                         </li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">
-                    &copy; 2026 Shrikrishna Real Estate Broker. All rights reserved.
+
+            <div class="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-center">
+                <p class="font-brand text-[8px] text-slate-600">
+                    &copy; 2026 SHRIKRISHNA ESTATE CURATORS. ELEVATING NASHIK.
                 </p>
-                <div class="flex gap-8">
-                    <a href="#" class="text-slate-500 hover:text-slate-300 text-[10px] font-bold uppercase tracking-widest no-underline transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-slate-500 hover:text-slate-300 text-[10px] font-bold uppercase tracking-widest no-underline transition-colors">Terms of Service</a>
+                <div class="flex gap-12">
+                    <a href="#" class="font-brand text-[8px] text-slate-600 hover:text-luxury-gold transition-colors">Privacy Policy</a>
+                    <a href="#" class="font-brand text-[8px] text-slate-600 hover:text-luxury-gold transition-colors">Client Charter</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/917030654050" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition-all z-50 flex items-center justify-center group" style="width: 60px; height: 60px; text-decoration: none;">
-        <i class="bi bi-whatsapp text-3xl"></i>
-        <span class="absolute right-full mr-3 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Chat with us</span>
+    <!-- Dynamic Concierge Button -->
+    <a href="https://wa.me/917030654050" id="whatsapp-concierge" target="_blank" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-luxury-gold border border-luxury-gold p-4 md:p-5 rounded-sm group hover:scale-105 transition-all duration-700 z-50 shadow-2xl flex items-center gap-4 md:gap-6 overflow-hidden">
+        <div class="flex items-center gap-4 md:gap-6 relative z-10">
+            <div class="w-8 h-8 md:w-10 md:h-10 bg-luxury-navy rounded-full flex items-center justify-center text-luxury-gold" id="concierge-icon-bg">
+                <i class="fab fa-whatsapp text-lg md:text-xl"></i>
+            </div>
+            <div class="flex flex-col pr-2 md:pr-4 border-l border-luxury-navy/20 pl-4 md:pl-6" id="concierge-text-container">
+                <span class="font-brand text-[7px] md:text-[8px] text-luxury-navy uppercase tracking-[0.2em] opacity-60">Immediate</span>
+                <span class="font-brand text-[9px] md:text-[10px] text-luxury-navy tracking-[0.1em] font-bold" id="concierge-text">CONCIERGE</span>
+            </div>
+        </div>
     </a>
 
-    {% block scripts %}{% endblock %}
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+
+        menuBtn.addEventListener('click', () => {
+            const isOpen = menu.classList.contains('opacity-100');
+            if (isOpen) {
+                menu.classList.replace('opacity-100', 'opacity-0');
+                menu.classList.add('pointer-events-none');
+                bars[0].classList.remove('-rotate-45', '-translate-y-2');
+                bars[1].classList.remove('opacity-0');
+                bars[2].classList.remove('rotate-45', 'translate-y-2');
+            } else {
+                menu.classList.replace('opacity-0', 'opacity-100');
+                menu.classList.remove('pointer-events-none');
+                bars[0].classList.add('-rotate-45', '-translate-y-2');
+                bars[1].classList.add('opacity-0');
+                bars[2].classList.add('rotate-45', 'translate-y-2');
+            }
+        });
+
+        // WhatsApp dynamic color shifting
+        const concierge = document.getElementById('whatsapp-concierge');
+        const footer = document.getElementById('main-footer');
+        const conciergeText = document.getElementById('concierge-text');
+        const conciergeIconBg = document.getElementById('concierge-icon-bg');
+        const conciergeTextContainer = document.getElementById('concierge-text-container');
+        const subText = conciergeTextContainer.querySelector('span:first-child');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    concierge.classList.remove('bg-luxury-gold', 'border-luxury-gold');
+                    concierge.classList.add('bg-white/10', 'backdrop-blur-3xl', 'border-white/20');
+                    conciergeText.style.color = 'white';
+                    subText.style.color = '#94a3b8';
+                    conciergeIconBg.classList.replace('bg-luxury-navy', 'bg-luxury-gold');
+                    conciergeIconBg.classList.replace('text-luxury-gold', 'text-luxury-navy');
+                    conciergeTextContainer.style.borderColor = 'rgba(255,255,255,0.1)';
+                } else {
+                    concierge.classList.add('bg-luxury-gold', 'border-luxury-gold');
+                    concierge.classList.remove('bg-white/10', 'backdrop-blur-3xl', 'border-white/20');
+                    conciergeText.style.color = '#010409';
+                    subText.style.color = '#010409';
+                    conciergeIconBg.classList.replace('bg-luxury-gold', 'bg-luxury-navy');
+                    conciergeIconBg.classList.replace('text-luxury-navy', 'text-luxury-gold');
+                    conciergeTextContainer.style.borderColor = 'rgba(1,4,9,0.2)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(footer);
+    </script>
 </body>
 </html>

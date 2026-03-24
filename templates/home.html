@@ -1,153 +1,152 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Shrikrishna Real Estate Nashik{% endblock %}
+{% block title %}Residences | Shrikrishna Private Estates{% endblock %}
 
 {% block content %}
-<!-- Premium Hero Section -->
-<div class="relative bg-white pt-20 pb-32 overflow-hidden">
-  <!-- Decorative Background -->
-  <div class="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-primary-50 rounded-full opacity-50 blur-3xl -z-10"></div>
-  
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-4xl mx-auto">
-      <h1 class="text-5xl md:text-7xl font-black text-primary-900 tracking-tighter leading-tight mb-8">
-        Find Your <span class="text-amber-500">Perfect</span> Space in Nashik
-      </h1>
-      <p class="text-xl text-slate-600 mb-12 leading-relaxed">
-        Shrikrishna Real Estate Broker connects you with the most exclusive residential and commercial properties across Nashik. Verified listings, expert guidance, and seamless transactions.
-      </p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="{{ url_for('main.search') }}" class="btn-primary text-lg px-10 py-4 flex items-center justify-center gap-2">
-            <i class="bi bi-search"></i> Browse Properties
-        </a>
-        <a href="{{ url_for('requirement.post_requirement') }}" class="btn-amber text-lg px-10 py-4 flex items-center justify-center gap-2">
-            <i class="bi bi-plus-circle"></i> Post Requirement
-        </a>
-      </div>
+<!-- Cinematic Hero Section -->
+<div class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Content -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Luxury Estate" class="w-full h-full object-cover opacity-40 grayscale-[0.5] contrast-[1.2]">
+        <div class="absolute inset-0 bg-gradient-to-b from-luxury-navy via-transparent to-luxury-navy"></div>
     </div>
-    
-    <!-- Hero Image with Premium Styling -->
-    <div class="mt-20 relative">
-      <div class="absolute -inset-4 bg-primary-900/5 rounded-[2rem] blur-2xl"></div>
-      <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="Real Estate Nashik" class="relative rounded-3xl shadow-2xl w-full max-w-5xl mx-auto object-cover h-[500px] border-8 border-white">
-      
-      <!-- Stats Overlay -->
-      <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-2xl p-8 flex gap-12 border border-slate-100 hidden md:flex">
-        <div class="text-center">
-            <div class="text-3xl font-black text-primary-900">500+</div>
-            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Properties</div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-8 text-center pt-20 pb-32 md:pb-40">
+        <h4 class="font-brand text-[10px] text-luxury-gold tracking-[0.5em] uppercase mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">ESTABLISHED 2011</h4>
+        <h1 class="text-fluid-h1 text-white mb-10 leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 uppercase">
+            Define Your <br><span class="italic text-luxury-gold">Proprietary</span> Legacy.
+        </h1>
+        <p class="font-['Cormorant_Garamond'] text-xl md:text-2xl text-slate-400 italic max-w-2xl mx-auto mb-16 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+            Nashik's most exclusive collection of residential landmarks and commercial cornerstones, curated for the discerning few.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-8 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-700">
+            <a href="{{ url_for('main.search') }}" class="btn-premium py-5 px-12 min-w-[280px]">
+                Browse The Collection
+            </a>
+            <a href="{{ url_for('requirement.post_requirement') }}" class="btn-outline py-5 px-12 min-w-[280px]">
+                Private Acquisition
+            </a>
         </div>
-        <div class="h-12 w-px bg-slate-100"></div>
-        <div class="text-center">
-            <div class="text-3xl font-black text-primary-900">1200+</div>
-            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Happy Clients</div>
-        </div>
-        <div class="h-12 w-px bg-slate-100"></div>
-        <div class="text-center">
-            <div class="text-3xl font-black text-primary-900">15+</div>
-            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Years Exp.</div>
-        </div>
-      </div>
     </div>
-  </div>
+
+    <!-- Scroll Indicator (Hidden on small screens to prevent overlap) -->
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-4 opacity-20">
+        <span class="font-brand text-[8px] text-luxury-gold tracking-[0.3em] uppercase">Scroll</span>
+        <div class="w-px h-16 bg-gradient-to-b from-luxury-gold to-transparent"></div>
+    </div>
 </div>
 
-<!-- Featured Properties with Elegant Cards -->
-<div class="bg-slate-50 py-32 border-t border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div class="max-w-2xl">
-                <h2 class="text-sm font-black text-amber-500 uppercase tracking-[0.3em] mb-4">Handpicked Selections</h2>
-                <h3 class="text-4xl font-black text-primary-900 tracking-tight">Featured Listings</h3>
+<!-- Portfolio Stats -->
+<div class="max-w-7xl mx-auto px-8 relative z-20 -mt-16 md:-mt-20">
+    <div class="glass-panel p-12 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 divide-y md:divide-y-0 md:divide-x divide-luxury-border">
+        <div class="text-center px-8">
+            <div class="font-brand text-4xl text-white mb-2">500<span class="text-luxury-gold">+</span></div>
+            <div class="font-brand text-[10px] text-slate-500 tracking-widest uppercase">Estates Curated</div>
+        </div>
+        <div class="text-center px-8">
+            <div class="font-brand text-4xl text-white mb-2">1200<span class="text-luxury-gold">+</span></div>
+            <div class="font-brand text-[10px] text-slate-500 tracking-widest uppercase">Patrons Served</div>
+        </div>
+        <div class="text-center px-8">
+            <div class="font-brand text-4xl text-white mb-2">15<span class="text-luxury-gold">+</span></div>
+            <div class="font-brand text-[10px] text-slate-500 tracking-widest uppercase">Years of Prestige</div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Portfolio Section -->
+<section class="py-40">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 border-b border-luxury-border pb-12">
+            <div>
+                <h4 class="font-brand text-[10px] text-luxury-gold tracking-[0.4em] uppercase mb-4">The Selection</h4>
+                <h2 class="text-6xl text-white italic">Featured Residences</h2>
             </div>
-            <a href="{{ url_for('main.search') }}" class="text-primary-500 font-bold hover:text-primary-700 transition-colors flex items-center gap-2">
-                Explore All Properties <i class="bi bi-arrow-right"></i>
+            <a href="{{ url_for('main.search') }}" class="nav-link !text-luxury-gold group">
+                View Full Portfolio <i class="fas fa-arrow-right ml-4 group-hover:translate-x-2 transition-transform"></i>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             {% for p in properties %}
-            <article class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col h-full">
-                <div class="relative overflow-hidden">
+            <article class="group relative overflow-hidden glass-panel !bg-transparent border-none">
+                <div class="relative aspect-[4/5] overflow-hidden mb-8 border border-luxury-border">
                     {% set first_image = p.images[0].image_path if p.images else None %}
-                    <img src="{{ url_for('static', filename='uploads/property_images/' + first_image) if first_image else 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }}" alt="{{ p.title }}" class="aspect-[4/3] w-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{{ url_for('static', filename='uploads/property_images/' + first_image) if first_image else 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }}" alt="{{ p.title }}" class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000">
                     
-                    <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="bg-primary-900/90 backdrop-blur text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">
+                    <!-- Label Overlay -->
+                    <div class="absolute top-6 left-6 flex flex-col gap-2">
+                        <span class="font-brand text-[8px] bg-luxury-gold text-luxury-navy px-3 py-1 tracking-widest uppercase">
                             {{ p.listing_type }}
                         </span>
                         {% if p.is_featured %}
-                        <span class="bg-amber-500 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">
-                            Featured
+                        <span class="font-brand text-[8px] bg-white text-black px-3 py-1 tracking-widest uppercase">
+                            Private Listing
                         </span>
                         {% endif %}
                     </div>
                 </div>
-                
-                <div class="p-8 flex flex-col flex-1">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded tracking-tighter">{{ p.property_type }}</span>
-                        <div class="flex gap-3 text-slate-400 text-xs font-medium">
-                            <span class="flex items-center gap-1"><i class="bi bi-door-open"></i> {{ p.bhk }} BHK</span>
-                            <span class="flex items-center gap-1"><i class="bi bi-grid"></i> {{ p.area }} sqft</span>
-                        </div>
+
+                <div class="px-2">
+                    <div class="flex items-center gap-6 mb-4">
+                        <span class="font-brand text-[9px] text-luxury-gold uppercase tracking-widest">{{ p.property_type }}</span>
+                        <div class="h-px flex-grow bg-luxury-border/30"></div>
+                        <span class="font-brand text-[9px] text-slate-500">{{ p.bhk }} ROOMS</span>
                     </div>
                     
-                    <h4 class="text-xl font-black text-primary-900 mb-2 group-hover:text-primary-500 transition-colors">
+                    <h3 class="text-3xl text-white mb-4 group-hover:text-luxury-gold transition-colors">
                         <a href="{{ url_for('main.property_detail', id=p.property_id) }}" class="no-underline text-inherit">
                             {{ p.title }}
                         </a>
-                    </h4>
+                    </h3>
                     
-                    <p class="text-slate-500 text-sm mb-6 flex items-start gap-2">
-                        <i class="bi bi-geo-alt-fill text-amber-500 mt-0.5"></i>
-                        {{ p.location }}
-                    </p>
-                    
-                    <div class="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Price Guide</span>
-                            <span class="text-2xl font-black text-primary-900">₹{{ "{:,.0f}".format(p.price or 0) }}</span>
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col">
+                            <span class="font-brand text-[8px] text-slate-500 uppercase tracking-widest mb-1">Acquisition Value</span>
+                            <span class="font-serif text-2xl text-white tracking-wide">₹{{ "{:,.0f}".format(p.price or 0) }}</span>
                         </div>
-                        <a href="{{ url_for('main.property_detail', id=p.property_id) }}" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary-500 hover:bg-primary-500 hover:text-white transition-all">
-                            <i class="bi bi-arrow-right text-xl"></i>
+                        <a href="{{ url_for('main.property_detail', id=p.property_id) }}" class="w-12 h-12 glass-panel flex items-center justify-center text-luxury-gold hover:bg-luxury-gold hover:text-luxury-navy transition-all">
+                            <i class="fas fa-arrow-right-long text-xl"></i>
                         </a>
                     </div>
                 </div>
             </article>
             {% else %}
-            <div class="col-span-full bg-white rounded-3xl p-20 text-center border border-dashed border-slate-200">
-                <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="bi bi-houses text-4xl text-slate-300"></i>
+            <div class="col-span-full py-40 text-center glass-panel">
+                <div class="mb-10 opacity-20">
+                    <i class="fa-thin fa-key text-8xl text-luxury-gold"></i>
                 </div>
-                <h4 class="text-xl font-bold text-slate-900 mb-2">No Properties Found</h4>
-                <p class="text-slate-500">We're currently updating our listings. Check back soon!</p>
+                <h3 class="text-4xl text-white mb-4">Awaiting Curations</h3>
+                <p class="font-['Cormorant_Garamond'] text-xl italic text-slate-500">The collection is currently under review. Please consult your concierge.</p>
             </div>
             {% endfor %}
         </div>
     </div>
-</div>
+</section>
 
-<!-- Modern CTA Section -->
-<div class="bg-primary-900 py-32 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+<!-- Private Mandate Section -->
+<section class="py-40 bg-black/40 relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_#064e3b_0%,_transparent_40%)] opacity-20"></div>
     </div>
     
-    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <h2 class="text-sm font-black text-amber-500 uppercase tracking-[0.4em] mb-6">Specialized Search</h2>
-        <h3 class="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">Can't find what you're looking for?</h3>
-        <p class="text-lg text-primary-100 mb-12 leading-relaxed">
-            Tell us your specific requirements and our expert team will find the perfect property match for you in Nashik's best locations.
+    <div class="relative z-10 max-w-4xl mx-auto px-8 text-center">
+        <h4 class="font-brand text-[10px] text-luxury-gold tracking-[0.5em] uppercase mb-10">Private Mandates</h4>
+        <h2 class="text-6xl text-white mb-10 leading-tight">Can't Find Your <span class="italic text-luxury-gold">Perfect</span> Match?</h2>
+        <p class="font-['Cormorant_Garamond'] text-2xl text-slate-400 italic mb-16 leading-relaxed">
+            Our expert acquisition team specializes in unearthing off-market treasures. Provide us with your bespoke requirements, and we will secure the impossible.
         </p>
-        <div class="flex flex-wrap justify-center gap-6">
-            <a href="{{ url_for('requirement.post_requirement') }}" class="btn-amber text-lg px-12 py-4 shadow-xl shadow-amber-900/20">
-                Post Your Requirement
+        
+        <div class="flex flex-wrap justify-center gap-10">
+            <a href="{{ url_for('requirement.post_requirement') }}" class="btn-premium py-5 px-14 text-[10px]">
+                Initiate Private Search
             </a>
-            <a href="{{ url_for('main.customer_needs') }}" class="bg-white/10 text-white px-12 py-4 rounded-md font-bold hover:bg-white/20 transition-all border border-white/20">
-                View Buyer Needs
+            <a href="{{ url_for('main.customer_needs') }}" class="btn-outline py-5 px-14 text-[10px]">
+                Review Current Mandates
             </a>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

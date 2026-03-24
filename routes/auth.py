@@ -92,3 +92,41 @@ def logout():
     logout_user()
     flash('Logged out successfully.', 'success')
     return redirect(url_for('main.index'))
+
+@auth_bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Check if email is already taken by another user
+        existing_user = User.query.filter(User.email == email, User.id != current_user.id).first()
+        if existing_user:
+            flash('Email address already in use by another account.', 'danger')
+            return redirect(url_for('auth.profile'))
+
+        # Password update logic
+        if new_password:
+            if new_password != confirm_password:
+                flash('Passwords do not match.', 'danger')
+                return redirect(url_for('auth.profile'))
+            current_user.set_password(new_password)
+
+        current_user.name = name
+        current_user.email = email
+        current_user.phone = phone
+
+        try:
+            db.session.commit()
+            flash('Your identity has been updated successfully.', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while updating your profile.', 'danger')
+        
+        return redirect(url_for('auth.profile'))
+
+    return render_template('profile.html')

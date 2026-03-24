@@ -4,4 +4,10 @@ instance/*.db
 *.db
 .idea/
 .env
+.env.*
+.venv/
+env/
+venv/
+ENV/
+*.env
 *.pkl
